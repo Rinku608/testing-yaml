@@ -32,7 +32,7 @@ objects:
     source:
       type: Git
       git:
-        uri: https://github.com/Rinku608/testing-yaml.git
+        uri: https://github.com/Rinku608/testing-yaml
         ref: master
       contextDir: /
     triggers:
