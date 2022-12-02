@@ -8,14 +8,14 @@ objects:
   metadata:
     annotations:
       description: Keeps track of changes in the application image
-    name: testing-yaml  
+    name: testing 
 - kind: BuildConfig
   apiVersion: v1
   metadata:
-    name: testing-yaml 
+    name: testing
     namespace: rinkuk019-dev
     labels:
-      app: testing-yaml 
+      app: testing
   spec:
     nodeSelector: null
     output:
@@ -49,10 +49,10 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: testing-yaml 
+    name: testing
     namespace: rinkuk019-dev
     labels:
-      app: testing-yaml 
+      app: testing
   spec:
     strategy:
       type: Rolling
@@ -69,7 +69,7 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - testing-yaml 
+            - testing
           from:
             kind: ImageStreamTag
             namespace: rinkuk019-dev
@@ -79,20 +79,20 @@ objects:
     revisionHistoryLimit: 10
     test: false
     selector:
-      app: testing-yaml 
-      deploymentconfig: testing-yaml 
+      app: testing
+      deploymentconfig: testing
     template:
       metadata:
         labels:
-          app: testing-yaml 
-          deploymentconfig: testing-yaml 
+          app: testing
+          deploymentconfig: testing
       spec:
         volumes:
           - name: claim1
             persistentVolumeClaim:
               claimName: claim1
         containers:
-          - name: testing-yaml 
+          - name: testing
             resources: {}
             volumeMounts:
               - name: claim1
@@ -109,10 +109,10 @@ objects:
   apiVersion: v1
   metadata:
     annotations:
-    name: testing-yaml 
+    name: testing
     namespace: rinkuk019-dev
     labels:
-      app: testing-yaml 
+      app: testing
   spec:
     ports:
     - name: 8080-tcp
@@ -120,22 +120,22 @@ objects:
       port: 8080
       targetPort: 8080
     selector:
-      app: testing-yaml 
-      deploymentconfig: testing-yaml 
+      app: testing
+      deploymentconfig: testing
     type: ClusterIP
     sessionAffinity: None
 - kind: Route
   apiVersion: route.openshift.io/v1
   metadata:
-    name: testing-yaml 
+    name: testing
     namespace: rinkuk019-dev
     labels:
-      app: testing-yaml 
+      app: testing
     annotations:
   spec:
     to:
       kind: Service
-      name: testing-yaml 
+      name: testing
       weight: 100
     port:
       targetPort: 8080-tcp
