@@ -8,20 +8,20 @@ objects:
   metadata:
     annotations:
       description: Keeps track of changes in the application image
-    name: yaml-demo    
+    name: testing-yaml  
 - kind: BuildConfig
   apiVersion: v1
   metadata:
-    name: yaml-demo
+    name: testing-yaml 
     namespace: rinkuk019-dev
     labels:
-      app: yaml-demo
+      app: testing-yaml 
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: 'yaml-demo:latest'
+        name: 'testing-yaml:latest'
     successfulBuildsHistoryLimit: 5
     failedBuildsHistoryLimit: 5
     strategy:
@@ -32,27 +32,27 @@ objects:
     source:
       type: Git
       git:
-        uri: https://github.com/Rinku608/spring-sourcetoimage.git
+        uri: https://github.com/Rinku608/testing-yaml.git
         ref: master
       contextDir: /
     triggers:
       - type: Generic
         generic:
           secretReference:
-            name: yaml-demo-generic-webhook-secret
+            name: testing-yaml-generic-webhook-secret
       - type: GitHub
         github:
           secretReference:
-            name: yaml-demo-github-webhook-secret
+            name: testing-yaml-github-webhook-secret
       - type: ConfigChange
     runPolicy: Serial
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: yaml-demo
+    name: testing-yaml 
     namespace: rinkuk019-dev
     labels:
-      app: yaml-demo
+      app: testing-yaml 
   spec:
     strategy:
       type: Rolling
@@ -69,30 +69,30 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - yaml-demo
+            - testing-yaml 
           from:
             kind: ImageStreamTag
             namespace: rinkuk019-dev
-            name: 'yaml-demo:latest'
+            name: 'testing-yaml:latest'
       - type: ConfigChange
     replicas: 1
     revisionHistoryLimit: 10
     test: false
     selector:
-      app: yaml-demo
-      deploymentconfig: yaml-demo
+      app: testing-yaml 
+      deploymentconfig: testing-yaml 
     template:
       metadata:
         labels:
-          app: yaml-demo
-          deploymentconfig: yaml-demo
+          app: testing-yaml 
+          deploymentconfig: testing-yaml 
       spec:
         volumes:
           - name: claim1
             persistentVolumeClaim:
               claimName: claim1
         containers:
-          - name: yaml-demo
+          - name: testing-yaml 
             resources: {}
             volumeMounts:
               - name: claim1
@@ -109,10 +109,10 @@ objects:
   apiVersion: v1
   metadata:
     annotations:
-    name: yaml-demo
+    name: testing-yaml 
     namespace: rinkuk019-dev
     labels:
-      app: yaml-demo
+      app: testing-yaml 
   spec:
     ports:
     - name: 8080-tcp
@@ -120,22 +120,22 @@ objects:
       port: 8080
       targetPort: 8080
     selector:
-      app: yaml-demo
-      deploymentconfig: yaml-demo
+      app: testing-yaml 
+      deploymentconfig: testing-yaml 
     type: ClusterIP
     sessionAffinity: None
 - kind: Route
   apiVersion: route.openshift.io/v1
   metadata:
-    name: yaml-demo
+    name: testing-yaml 
     namespace: rinkuk019-dev
     labels:
-      app: yaml-demo
+      app: testing-yaml 
     annotations:
   spec:
     to:
       kind: Service
-      name: yaml-demo
+      name: testing-yaml 
       weight: 100
     port:
       targetPort: 8080-tcp
